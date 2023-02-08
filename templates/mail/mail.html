@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block title %}
+    Mail
+{% endblock %}
+
+{% block content %}
+    <div class = "container-fluid">
+        <div class = "row contact-row">
+            <div class = "col-xl-7 contact-form-animate">
+                <p class = "text-center">
+                    You can fill out the mail form below that make mail list.
+                </p>
+                <form method="post" class = "control-form">
+                    {% csrf_token %}
+                    {{ form.media }}
+                    {{ form.as_p }}
+                    <br>
+                    <div class="col">
+                        <button type="submit" class="btn btn-block btn-primary">Send Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
