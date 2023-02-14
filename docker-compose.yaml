@@ -10,6 +10,8 @@ services:
     volumes:
       - .:/code
       - ./.env.docker:/code/.env
+      - mailproject_static:/code/static/
+      - mailproject_media:/code/media/
     links:
       - redis
     depends_on:
@@ -18,7 +20,7 @@ services:
   db:
     restart: always
     image: postgres:9.6-alpine
-    container_name: mail_db
+    container_name: 'mail_db'
     env_file:
       - ./.env.docker
     expose:
@@ -46,6 +48,7 @@ services:
     volumes:
       - ./.env.docker:/code/.env
       - mailproject_static:/code/static/
+      - mailproject_media:/code/media/
   redis:
     image: redis/redis-stack:latest
     container_name: redis
@@ -58,3 +61,4 @@ volumes:
   postgres_data:
   redis_data:
   mailproject_static:
+  mailproject_media:

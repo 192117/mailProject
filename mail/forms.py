@@ -1,6 +1,6 @@
 import datetime
 
-from django import forms
+from django import forms, db
 
 from mail.models import Mail, Message, Recipient
 
@@ -39,7 +39,7 @@ class MailForm(forms.ModelForm):
                                          initial=format(datetime.date.today(), '%Y-%m-%d %H:%M'))
         message = forms.ModelChoiceField(queryset=Message.objects.all())
         recipients = forms.MultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple)
-    except Exception:
+    except db.utils.ProgrammingError:
         choices = []
 
         name = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'name'}))
