@@ -17,7 +17,7 @@ services:
       - redis
   db:
     restart: always
-    image: postgres:15.0-alpine
+    image: postgres:9.6-alpine
     container_name: mail_db
     env_file:
       - ./.env.docker
@@ -32,7 +32,7 @@ services:
       retries: 5
   backend:
     build: .
-    container_name: 'backend'
+    container_name: 'backend_mail'
     depends_on:
       db:
         condition: service_healthy
@@ -40,21 +40,21 @@ services:
       bash -c "python manage.py collectstatic --noinput
       && python manage.py makemigrations
       && python manage.py migrate
-      && python manage.py runserver 0.0.0.0:8000"
+      && gunicorn mailProject.wsgi -b :8000 --log-level=debug"
     ports:
-      - '8000:8000'
+      - '8003:8000'
     volumes:
       - ./.env.docker:/code/.env
+      - mailproject_static:/code/static/
   redis:
     image: redis/redis-stack:latest
     container_name: redis
     expose:
       - '6379'
-    ports:
-      - '9999:8001'
     volumes:
       - redis_data:/data
 
 volumes:
   postgres_data:
   redis_data:
+  mailproject_static:
