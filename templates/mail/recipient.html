@@ -11,7 +11,7 @@
                 <p class = "text-center">
                    You can fill out the recipient form below to create a list of recipients.
                 </p>
-                <form method="post" class = "control-form">
+                <form method="post" class = "control-form" action="{% url 'recipient_url' %}">
                     {% csrf_token %}
                     {{ form.media }}
                     {{ form.as_p }}

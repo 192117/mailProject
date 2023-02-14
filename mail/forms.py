@@ -1,6 +1,6 @@
 import datetime
 
-from django import forms, db
+from django import db, forms
 
 from mail.models import Mail, Message, Recipient
 
