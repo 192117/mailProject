@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
@@ -15,7 +16,7 @@ class RecipientView(FormView):
 
     def form_valid(self, form):
         form.save()
-        return super(RecipientView, self).form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class MessageView(FormView):
@@ -26,7 +27,7 @@ class MessageView(FormView):
 
     def form_valid(self, form):
         form.save()
-        return super(MessageView, self).form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class MailView(FormView):
@@ -37,4 +38,4 @@ class MailView(FormView):
 
     def form_valid(self, form):
         form.save()
-        return super(MailView, self).form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
