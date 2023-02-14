@@ -1,9 +1,9 @@
 from django.conf.urls import url
 
-from .views import MailView, MessageView, RecipientView
+from .views import get_resipient, get_mail, get_message
 
 urlpatterns = [
-    url(r'^recipient/', RecipientView.as_view(), name='recipient_url'),
-    url(r'^message/', MessageView.as_view(), name='message_url'),
-    url(r'^mail/', MailView.as_view(), name='mail_url'),
+    url(r'^recipient/', get_resipient, name='recipient_url'),
+    url(r'^message/', get_message, name='message_url'),
+    url(r'^mail/', get_mail, name='mail_url'),
 ]

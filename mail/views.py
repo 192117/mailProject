@@ -1,41 +1,35 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
-from django.views.generic.edit import FormView
-
+from django.shortcuts import render
 from .forms import MailForm, MessageForm, RecipientForm
 
 
-class RecipientView(FormView):
-
-    template_name = 'mail/recipient.html'
-    form_class = RecipientForm
-    success_url = reverse_lazy('recipient_url')
-
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class MessageView(FormView):
-
-    template_name = 'mail/message.html'
-    form_class = MessageForm
-    success_url = reverse_lazy('message_url')
-
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
+def get_resipient(request):
+    if request.method == 'POST':
+        form = RecipientForm(request.POST)
+        if form.is_valid():
+            return render(request, 'success.html')
+    else:
+        form = RecipientForm()
+    return render(request, 'mail/recipient.html', {'form': form})
 
 
-class MailView(FormView):
+def get_message(request):
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            return render(request, 'success.html')
+    else:
+        form = MessageForm()
+    return render(request, 'mail/message.html', {'form': form})
 
-    template_name = 'mail/mail.html'
-    form_class = MailForm
-    success_url = reverse_lazy('mail_url')
 
-    def form_valid(self, form):
-        form.save()
-        return HttpResponseRedirect(self.get_success_url())
+def get_mail(request):
+    if request.method == 'POST':
+        form = MailForm(request.POST)
+        if form.is_valid():
+            return render(request, 'success.html')
+    else:
+        form = MailForm()
+    return render(request, 'mail/mail.html', {'form': form})
