@@ -1,6 +1,6 @@
 import datetime
 
-from django import db, forms
+from django import forms
 
 from mail.models import Mail, Message, Recipient
 
@@ -31,22 +31,12 @@ class MessageForm(forms.ModelForm):
 
 class MailForm(forms.ModelForm):
 
-    try:
-        choices = Recipient.objects.values_list('id', 'email')
-
-        name = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'name'}))
-        start_time = forms.DateTimeField(label='', widget=forms.DateTimeInput(attrs={'placeholder': 'start_time'}),
-                                         initial=format(datetime.date.today(), '%Y-%m-%d %H:%M'))
-        message = forms.ModelChoiceField(queryset=Message.objects.all())
-        recipients = forms.MultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple)
-    except db.utils.ProgrammingError:
-        choices = []
-
-        name = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'name'}))
-        start_time = forms.DateTimeField(label='', widget=forms.DateTimeInput(attrs={'placeholder': 'start_time'}),
-                                         initial=format(datetime.date.today(), '%Y-%m-%d %H:%M'))
-        message = forms.ModelChoiceField(queryset=Message.objects.all())
-        recipients = forms.MultipleChoiceField(choices=choices, widget=forms.CheckboxSelectMultiple)
+    name = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'name'}))
+    start_time = forms.DateTimeField(label='', widget=forms.DateTimeInput(attrs={'placeholder': 'start_time'}),
+                                     initial=format(datetime.date.today(), '%Y-%m-%d %H:%M'))
+    message = forms.ModelChoiceField(queryset=Message.objects.all())
+    recipients = forms.ModelMultipleChoiceField(queryset=Recipient.objects.values_list('id', 'email'),
+                                                widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Mail
