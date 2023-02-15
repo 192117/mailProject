@@ -36,7 +36,7 @@ class MailForm(forms.ModelForm):
     start_time = forms.DateTimeField(label='', widget=forms.DateTimeInput(attrs={'placeholder': 'start_time'}),
                                      initial=format(datetime.date.today(), '%Y-%m-%d %H:%M'))
     message = forms.ModelChoiceField(queryset=Message.objects.all())
-    recipients = UserModelMultipleChoiceField(queryset=Recipient.objects.values_list('email'),
+    recipients = UserModelMultipleChoiceField(queryset=Recipient.objects.all(),
                                               widget=forms.CheckboxSelectMultiple)
 
     class Meta:
