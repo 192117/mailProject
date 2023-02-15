@@ -3,6 +3,7 @@ import datetime
 from django import forms
 
 from mail.models import Mail, Message, Recipient
+from utils import UserModelMultipleChoiceField
 
 
 class RecipientForm(forms.ModelForm):
@@ -35,8 +36,8 @@ class MailForm(forms.ModelForm):
     start_time = forms.DateTimeField(label='', widget=forms.DateTimeInput(attrs={'placeholder': 'start_time'}),
                                      initial=format(datetime.date.today(), '%Y-%m-%d %H:%M'))
     message = forms.ModelChoiceField(queryset=Message.objects.all())
-    recipients = forms.ModelMultipleChoiceField(queryset=Recipient.objects.values_list('id', 'email'),
-                                                widget=forms.CheckboxSelectMultiple)
+    recipients = UserModelMultipleChoiceField(queryset=Recipient.objects.values_list('email'),
+                                              widget=forms.CheckboxSelectMultiple)
 
     class Meta:
         model = Mail

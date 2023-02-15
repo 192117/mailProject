@@ -105,34 +105,3 @@ class Mail(models.Model):
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
-
-
-@python_2_unicode_compatible
-class StatusRecipientMail(models.Model):
-
-    status = models.BooleanField(
-        verbose_name='Статус открытия сообщения из рассылки',
-        help_text='Введите cтатус открытия сообщения из рассылки',
-        default=False,
-    )
-    recipient = models.ForeignKey(
-        Recipient,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='status_recipient',
-        verbose_name='Получатель'
-    )
-    mail = models.ForeignKey(
-        Mail,
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='status_recipient_mail',
-        verbose_name='Рассылка'
-    )
-
-    def __str__(self):
-        return '{} {} {}'.format(self.status, self.recipient.email, self.mail.name)
-
-    class Meta:
-        verbose_name = 'Статус открытия почты'
-        verbose_name_plural = 'Статусы открытия почты'

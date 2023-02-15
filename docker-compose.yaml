@@ -19,7 +19,7 @@ services:
       - redis
   db:
     restart: always
-    image: postgres:9.6-alpine
+    image: postgres:15.0-alpine
     container_name: 'mail_db'
     env_file:
       - ./.env.docker
